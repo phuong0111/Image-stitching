@@ -3,7 +3,6 @@ import os
 import shutil
 import cv2
 import numpy as np
-from rembg import remove
 from skimage.transform import resize
 from utility import *
 
@@ -84,10 +83,10 @@ def segment(path):
         c
     )  ### getting the values of x,y,w and h is our main intention
     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 5)
-    show_image("rectangle", img)
+    # show_image("rectangle", img)
 
     cropped_img = img_copy[y : y + h + 1, x : x + w + 1]
-    show_image("crop", cropped_img)
+    # show_image("crop", cropped_img)
 
     return cropped_img
 
@@ -125,7 +124,7 @@ def _overlay(optical_path, xray_path, alpha, beta):
     return final_img
 
 
-def overlay(input_dataset: str, alpha, beta):
+def overlay(dataset_name: str, alpha, beta):
     subsets_optical = get_subset_names("Data/Optical-image")
     subsets_xray = get_subset_names("Output/SIFT")
     subsets = {}
@@ -134,9 +133,9 @@ def overlay(input_dataset: str, alpha, beta):
         subsets[_] = list(set(subsets_optical[_]).intersection(set(subsets_xray[_])))
 
     for _ in subsets:
-        optical_path = os.path.join("Data/Optical-image", input_dataset)
-        xray_path = os.path.join("Output/SIFT", input_dataset)
-        output_path = os.path.join("Output/Final", input_dataset)
+        optical_path = os.path.join("Data/Optical-image", dataset_name)
+        xray_path = os.path.join("Output/SIFT", dataset_name)
+        output_path = os.path.join("Output/Final", dataset_name)
         for folder in subsets[_]:
             optical_img_name = os.listdir(os.path.join(optical_path, folder))[0]
             xray_img_name = os.listdir(os.path.join(xray_path, folder))[0]
@@ -152,7 +151,6 @@ def overlay(input_dataset: str, alpha, beta):
             )
 
 
-# overlay("Test-1")
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--Dataset", help="\ndataset name", required=True)
 parser.add_argument("-a", "--Alpha", help="\noptical image transparency", default=0.2)
@@ -160,4 +158,5 @@ parser.add_argument("-b", "--Beta", help="\nxray image transparency", default=0.
 
 args = parser.parse_args()
 
-overlay(args.Dataset, args.Alpha, args.Beta)
+if __name__ == "__main__":
+    overlay(args.Dataset, args.Alpha, args.Beta)

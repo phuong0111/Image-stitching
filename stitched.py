@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import pandas as pd
 import os
 from utility import *
 import argparse
@@ -228,4 +227,5 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-stitched(args.Dataset)
+if __name__ == "__main__":
+    stitched(args.Dataset)
