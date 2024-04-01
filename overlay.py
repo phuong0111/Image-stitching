@@ -49,7 +49,7 @@ def findSignificantContours(img, sobel_8u):
 def segment(path):
     img = cv2.imread(path)
     img_copy = img.copy()
-    show_image("origin", img)
+    # show_image("origin", img)
     blurred = cv2.GaussianBlur(img, (5, 5), 0)  # Remove noise
 
     # Edge operator
@@ -72,7 +72,7 @@ def segment(path):
     sobel[sobel > 255] = 255
 
     # cv2.imwrite("output/edge.png", sobel)
-    show_image("edge", sobel)
+    # show_image("edge", sobel)
 
     sobel_8u = np.asarray(sobel, np.uint8)
 
@@ -120,7 +120,7 @@ def _overlay(optical_path, xray_path, alpha, beta):
     final_img = (final_img * 255).round().astype(np.uint8)
     # mkdir_if_not_exist(output_path)
     # cv2.imwrite(output_path, final_img)
-    show_image("final", final_img)
+    # show_image("final", final_img)
     return final_img
 
 
@@ -129,17 +129,28 @@ def overlay(dataset_name: str, alpha, beta):
     subsets_xray = get_subset_names("Output/SIFT")
     subsets = {}
     for _ in subsets_optical:
-        print(_)
-        subsets[_] = list(set(subsets_optical[_]).intersection(set(subsets_xray[_])))
+        if _ == ".DS_Store":
+            continue
+        try:
+            subsets[_] = list(set(subsets_optical[_]).intersection(set(subsets_xray[_])))
+        except Exception:
+            pass
+        # print(_)
+        # subsets[_] = list(set(subsets_optical[_]).intersection(set(subsets_xray[_])))
 
     for _ in subsets:
+        print(_)
         optical_path = os.path.join("Data/Optical-image", dataset_name)
         xray_path = os.path.join("Output/SIFT", dataset_name)
         output_path = os.path.join("Output/Final", dataset_name)
+        mkdir_if_not_exist(output_path)
         for folder in subsets[_]:
+            if folder == ".DS_Store":
+                continue
             optical_img_name = os.listdir(os.path.join(optical_path, folder))[0]
             xray_img_name = os.listdir(os.path.join(xray_path, folder))[0]
             output_path = os.path.join(output_path, folder, "final.jpg")
+            mkdir_if_not_exist(os.path.join("Output/Final", dataset_name, folder))
             cv2.imwrite(
                 output_path,
                 _overlay(
@@ -151,12 +162,12 @@ def overlay(dataset_name: str, alpha, beta):
             )
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-d", "--Dataset", help="\ndataset name", required=True)
-parser.add_argument("-a", "--Alpha", help="\noptical image transparency", default=0.2)
-parser.add_argument("-b", "--Beta", help="\nxray image transparency", default=0.8)
+# parser = argparse.ArgumentParser()
+# parser.add_argument("-d", "--Dataset", help="\ndataset name", required=True)
+# parser.add_argument("-a", "--Alpha", help="\noptical image transparency", default=0.2)
+# parser.add_argument("-b", "--Beta", help="\nxray image transparency", default=0.8)
 
-args = parser.parse_args()
+# args = parser.parse_args()
 
-if __name__ == "__main__":
-    overlay(args.Dataset, args.Alpha, args.Beta)
+# if __name__ == "__main__":
+#     overlay(args.Dataset, args.Alpha, args.Beta)

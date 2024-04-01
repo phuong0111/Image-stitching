@@ -46,7 +46,7 @@ def stitch_images(folder_path, output_path):
 
 def browse_and_stitch_folder():
     """Opens a file dialog, selects a folder, and stitches the images."""
-    folder_path = filedialog.askdirectory(initialdir="/Users/xuanphuong/Desktop/project/python/Image Stitching/V1/Data/Xray-image")
+    folder_path = filedialog.askdirectory(initialdir="Data/Xray-image")
     if folder_path:
         try:
             dataset_name = os.path.basename(folder_path)
@@ -58,9 +58,7 @@ def browse_and_stitch_folder():
 
 def browse_and_overlay_folder():
     """Opens a file dialog, selects a folder, and stitches the images."""
-    folder_path = filedialog.askdirectory(
-        initialdir="/Users/xuanphuong/Desktop/project/python/Image Stitching/V1/Data/Xray-image"
-    )
+    folder_path = filedialog.askdirectory(initialdir="Data/Xray-image")
     if folder_path:
         try:
             dataset_name = os.path.basename(folder_path)
@@ -74,7 +72,7 @@ def browse_and_move_xray_folder():
     """Opens a file dialog, checks for X-ray image (replace with your logic), and moves the folder."""
     folder_path = filedialog.askdirectory(initialdir=get_desktop_path())
     if folder_path:
-        xray_destination = "/Users/xuanphuong/Desktop/project/python/Image Stitching/V1/Data/Xray-image"  # Replace with your X-ray destination path
+        xray_destination = f"Data/Xray-image/{os.path.basename(folder_path)}"  # Replace with your X-ray destination path
 
         if not check_image_type(folder_path):  # Replace with your X-ray image check
             messagebox.showerror("Error", "Folder does not contain an X-ray image.")
@@ -87,7 +85,7 @@ def browse_and_move_optical_folder():
     """Opens a file dialog, checks for optical image (replace with your logic), and moves the folder."""
     folder_path = filedialog.askdirectory(initialdir=get_desktop_path())
     if folder_path:
-        optical_destination = "/Users/xuanphuong/Desktop/project/python/Image Stitching/V1/Data/Optical-image"  # Replace with your optical destination path
+        optical_destination = f"Data/Optical-image/{os.path.basename(folder_path)}"  # Replace with your optical destination path
 
         if not check_image_type(folder_path):  # Replace with your optical image check
             messagebox.showerror("Error", "Folder does not contain an optical image.")
@@ -114,7 +112,7 @@ def move_folder(folder_path, destination_path):
         return
 
     try:
-        shutil.move(folder_path, destination_path)
+        shutil.copytree(folder_path, destination_path)
         messagebox.showinfo("Success", "Folder moved successfully!")
     except Exception as e:
         messagebox.showerror("Error", f"Failed to move folder: {e}")

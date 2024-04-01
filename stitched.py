@@ -217,15 +217,15 @@ def stitched(dataset_name=None, algo="SIFT"):
             )
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    "-d",
-    "--Dataset",
-    help="Choose specific dataset name in folder Data, default is all dataset in folder Data",
-    default=None,
-)
+# parser = argparse.ArgumentParser()
+# parser.add_argument(
+#     "-d",
+#     "--Dataset",
+#     help="Choose specific dataset name in folder Data, default is all dataset in folder Data",
+#     default=None,
+# )
 
-args = parser.parse_args()
+# args = parser.parse_args()
 
-if __name__ == "__main__":
-    stitched(args.Dataset)
+# if __name__ == "__main__":
+#     stitched(args.Dataset)

@@ -51,12 +51,39 @@ Folder structure
 Stitching X-ray image:
 
 ```bash
-python stitched.py -d <Dataset name>
+python3.11 stitched.py -d <Dataset name>
 ```
 
 Synchronizing stitched X-ray image and optical image:
 
 ```bash
-python overlay.py -d <Dataset name> [-a] <optical image transparency, default 0.2> [-b] <xray image transparency, default 0.8>
+python3.11 overlay.py -d <Dataset name> [-a] <optical image transparency, default 0.2> [-b] <xray image transparency, default 0.8>
 ```
 
+GUI
+
+```
+python3.11 GUI.py
+```
+
+![alt text](image.png)
+
+Add dataset
+
+![alt text](image-2.png)
+
+Stitch image
+
+![alt text](image-3.png)
+
+Output in 
+
+![alt text](image-4.png)
+
+Overlay image
+
+![alt text](image-5.png)
+
+Output in 
+
+![alt text](image-6.png)
